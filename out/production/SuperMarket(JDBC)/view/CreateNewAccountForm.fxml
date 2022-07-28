@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="484.0" prefWidth="456.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CreateNewAccountFormController">
+   <children>
+      <Label layoutX="142.0" layoutY="23.0" text="Create New Account" underline="true">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <TextField layoutX="39.0" layoutY="110.0" prefHeight="31.0" prefWidth="328.0" />
+      <Label layoutX="39.0" layoutY="83.0" text="User Name" />
+      <TextField layoutX="39.0" layoutY="180.0" prefHeight="31.0" prefWidth="328.0" />
+      <Label layoutX="39.0" layoutY="153.0" text="E-Mail" />
+      <Label layoutX="39.0" layoutY="224.0" text="New Password" />
+      <PasswordField layoutX="39.0" layoutY="252.0" prefHeight="31.0" prefWidth="328.0" />
+      <Label layoutX="39.0" layoutY="294.0" text="Confirm Password" />
+      <PasswordField layoutX="39.0" layoutY="322.0" prefHeight="31.0" prefWidth="328.0" />
+      <JFXButton buttonType="RAISED" layoutX="100.0" layoutY="385.0" prefHeight="39.0" prefWidth="257.0" style="-fx-background-color: #009432; -fx-background-radius: 5px;" text="Register" textFill="WHITE" />
+   </children>
+</AnchorPane>
