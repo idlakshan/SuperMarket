@@ -1,0 +1,21 @@
+DROP DATABASE IF EXISTS supermarket;
+CREATE DATABASE IF NOT EXISTS supermarket;
+SHOW DATABASES;
+
+USE supermarket;
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE IF NOT EXISTS user(
+
+    user_id VARCHAR (45),
+    name VARCHAR (45) NOT NULL,
+    email TEXT NOT NULL,
+    password VARCHAR (20)NOT NULL,
+    CONSTRAINT PRIMARY KEY(user_id)
+
+);
+
+INSERT INTO USER VALUES('U001','Kamal','kamal@gmail.com','123');
+
+SHOW TABLES;
+DESC user;
