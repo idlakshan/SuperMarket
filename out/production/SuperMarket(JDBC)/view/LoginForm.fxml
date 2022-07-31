@@ -22,11 +22,11 @@
             <Image url="@../images/shop-icon.png" />
          </image>
       </ImageView>
-      <TextField layoutX="97.0" layoutY="284.0" prefHeight="31.0" prefWidth="320.0" />
+      <TextField fx:id="txtUserName" layoutX="97.0" layoutY="284.0" prefHeight="31.0" prefWidth="320.0" />
       <Label layoutX="97.0" layoutY="255.0" text="User Name" />
-      <PasswordField layoutX="93.0" layoutY="359.0" prefHeight="31.0" prefWidth="320.0" />
+      <PasswordField fx:id="txtPassword" layoutX="93.0" layoutY="359.0" prefHeight="31.0" prefWidth="320.0" />
       <Label layoutX="97.0" layoutY="333.0" text="Password" />
-      <JFXButton buttonType="RAISED" layoutX="125.0" layoutY="431.0" prefHeight="41.0" prefWidth="256.0" style="-fx-background-color: #1e3799; -fx-background-radius: 5px;" text="Login" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="125.0" layoutY="431.0" onAction="#btnLoginOnAction" prefHeight="41.0" prefWidth="256.0" style="-fx-background-color: #1e3799; -fx-background-radius: 5px;" text="Login" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
