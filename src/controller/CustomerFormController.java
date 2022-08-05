@@ -63,13 +63,57 @@ public class CustomerFormController {
 
     }
 
-    public void btnCustomerSearchOnAction(ActionEvent event) {
+    public void btnCustomerSearchOnAction(ActionEvent event) throws SQLException {
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("select * from customer where id=?");
+        statement.setObject(1,txtCusCode.getText());
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next()){
+            txtCusCode.setText(resultSet.getString(1));
+            txtCusName.setText(resultSet.getString(2));
+            txtCusAddress.setText(resultSet.getString(3));
+            txtCusTp.setText(resultSet.getString(4));
+        }else{
+            new Alert(Alert.AlertType.WARNING,"Empty results").show();
+        }
+
     }
 
-    public void btnCustomerUpdateOnAction(ActionEvent event) {
+    public void btnCustomerUpdateOnAction(ActionEvent event) throws SQLException {
+        String tempId = txtCusCode.getText();
+        String tempName = txtCusName.getText();
+        String tempAddress = txtCusAddress.getText();
+        String tempTp = txtCusTp.getText();
+
+
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("update customer set name=?,address=?,tp=? where id=?");
+        statement.setObject(1,tempName);
+        statement.setObject(2,tempAddress);
+        statement.setObject(3,tempTp);
+        statement.setObject(4,tempId);
+
+
+        if(statement.executeUpdate()>0){
+            new Alert(Alert.AlertType.INFORMATION,"Updated").show();
+            loadAllCustomers();
+            clearTextFields();
+        }else{
+            new Alert(Alert.AlertType.WARNING,"Try Again").show();
+        }
     }
 
-    public void btnCustomerDeleteOnAction(ActionEvent event) {
+    public void btnCustomerDeleteOnAction(ActionEvent event) throws SQLException {
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("delete from customer where id=?");
+        statement.setObject(1, txtCusCode.getText());
+
+        if (statement.executeUpdate() > 0) {
+            new Alert(Alert.AlertType.INFORMATION, "Deleted").show();
+            loadAllCustomers();
+            clearTextFields();
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Try again").show();
+        }
 
     }
 
