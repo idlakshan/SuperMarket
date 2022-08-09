@@ -30,7 +30,7 @@ public class DashBoardFormController {
 
 
     public void btnItemManage(ActionEvent event) throws IOException {
-        URL resource = getClass().getResource("../view/ItemsForm.fxml");
+        URL resource = getClass().getResource("../view/ItemForm.fxml");
         Parent load = FXMLLoader.load(resource);
         root.getChildren().clear();
         root.getChildren().add(load);

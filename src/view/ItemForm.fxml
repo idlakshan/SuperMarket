@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemFormController">
+   <children>
+      <AnchorPane fx:id="root" prefHeight="542.0" prefWidth="1112.0" style="-fx-background-color: white;">
+         <children>
+            <Label layoutX="474.0" layoutY="26.0" text="Item Manage" underline="true">
+               <font>
+                  <Font name="Arial Italic" size="28.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtCode" layoutX="27.0" layoutY="107.0" prefHeight="31.0" prefWidth="319.0" promptText="Code" />
+            <TableView fx:id="tblItem" layoutX="394.0" layoutY="100.0" prefHeight="386.0" prefWidth="696.0">
+              <columns>
+                <TableColumn fx:id="colCode" prefWidth="145.0" text="Code" />
+                <TableColumn fx:id="colName" prefWidth="251.0" text="Name" />
+                  <TableColumn fx:id="colQtyOnHand" prefWidth="162.0" text="QtyOnHand" />
+                  <TableColumn fx:id="colPrice" prefWidth="137.0" text="Price" />
+              </columns>
+            </TableView>
+            <Label layoutX="27.0" layoutY="80.0" text="Item Code" />
+            <TextField fx:id="txtName" layoutX="27.0" layoutY="176.0" prefHeight="31.0" prefWidth="319.0" promptText="Name" />
+            <Label layoutX="27.0" layoutY="149.0" text="Item Name" />
+            <TextField fx:id="txtQtyOnHand" layoutX="27.0" layoutY="243.0" prefHeight="31.0" prefWidth="319.0" promptText="QtyOnHand" />
+            <Label layoutX="27.0" layoutY="216.0" text="Qty On Hand" />
+            <TextField fx:id="txtQtyPrice" layoutX="27.0" layoutY="310.0" prefHeight="31.0" prefWidth="319.0" promptText="Price" />
+            <Label layoutX="27.0" layoutY="283.0" text="Unit Price" />
+            <JFXButton buttonType="RAISED" layoutX="55.0" layoutY="371.0" onAction="#btnSaveItemOnAction" prefHeight="40.0" prefWidth="259.0" style="-fx-background-color: #273c75; -fx-background-radius: 5px;" text="Save" textFill="WHITE" />
+            <JFXButton buttonType="RAISED" layoutX="29.0" layoutY="441.0" onAction="#btnSearchItemOnAction" prefHeight="40.0" prefWidth="85.0" style="-fx-background-color: green; -fx-background-radius: 5px;" text="Search" textFill="WHITE" />
+            <JFXButton buttonType="RAISED" layoutX="144.0" layoutY="441.0" onAction="#btnUpdateItemOnAction" prefHeight="40.0" prefWidth="85.0" style="-fx-background-color: #e1b12c; -fx-background-radius: 5px;" text="Update" textFill="WHITE" />
+            <JFXButton buttonType="RAISED" layoutX="261.0" layoutY="441.0" onAction="#btnDeleteItemOnAction" prefHeight="40.0" prefWidth="85.0" style="-fx-background-color: red; -fx-background-radius: 5px;" text="Delete" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

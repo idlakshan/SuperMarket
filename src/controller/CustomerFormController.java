@@ -1,6 +1,8 @@
 package controller;
 
 import db.DBConnection;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,82 +26,87 @@ public class CustomerFormController {
     public TextField txtCusName;
     public TextField txtCusAddress;
     public TextField txtCusTp;
-    public TableView tblCustomer;
+    public TableView<CustomerTM> tblCustomer;
     public TableColumn colCusCode;
     public TableColumn colCusName;
     public TableColumn colCusAddress;
     public TableColumn colCusTp;
 
-    public void initialize(){
+    public void initialize() throws SQLException {
 
 
-        try {
-            colCusCode.setCellValueFactory(new PropertyValueFactory<>("id"));
-            colCusName.setCellValueFactory(new PropertyValueFactory<>("name"));
-            colCusAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
-            colCusTp.setCellValueFactory(new PropertyValueFactory<>("tp"));
+        colCusCode.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colCusName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colCusAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colCusTp.setCellValueFactory(new PropertyValueFactory<>("tp"));
 
+        loadAllCustomers();
 
-            loadAllCustomers();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+        tblCustomer.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CustomerTM>() {
+            @Override
+            public void changed(ObservableValue<? extends CustomerTM> observable, CustomerTM oldValue, CustomerTM newValue) {
+                txtCusCode.setText(tblCustomer.getSelectionModel().getSelectedItem().getId());
+                txtCusName.setText(tblCustomer.getSelectionModel().getSelectedItem().getName());
+                txtCusAddress.setText(tblCustomer.getSelectionModel().getSelectedItem().getAddress());
+                txtCusTp.setText(tblCustomer.getSelectionModel().getSelectedItem().getTp());
+            }
+
+        });
 
 
     }
 
+
     public void btnCustomerSaveOnAction(ActionEvent event) throws SQLException {
 
-        Customer customer = new Customer(txtCusCode.getText(),txtCusName.getText(),txtCusAddress.getText(),txtCusTp.getText());
+        Customer customer = new Customer(txtCusCode.getText(), txtCusName.getText(), txtCusAddress.getText(), txtCusTp.getText());
 
-        if (saveCustomer(customer)){
-            new Alert(Alert.AlertType.INFORMATION,"Saved..").show();
+        if (saveCustomer(customer)) {
+            new Alert(Alert.AlertType.INFORMATION, "Saved..").show();
             loadAllCustomers();
             clearTextFields();
-        }else{
-            new Alert(Alert.AlertType.WARNING,"Try again.").show();
-            clearTextFields();
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Try again.").show();
         }
 
     }
 
     public void btnCustomerSearchOnAction(ActionEvent event) throws SQLException {
         PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("select * from customer where id=?");
-        statement.setObject(1,txtCusCode.getText());
+        statement.setObject(1, txtCusCode.getText());
 
         ResultSet resultSet = statement.executeQuery();
 
-        if(resultSet.next()){
-            txtCusCode.setText(resultSet.getString(1));
-            txtCusName.setText(resultSet.getString(2));
-            txtCusAddress.setText(resultSet.getString(3));
-            txtCusTp.setText(resultSet.getString(4));
-        }else{
-            new Alert(Alert.AlertType.WARNING,"Empty results").show();
+        if (resultSet.next()) {
+
+            Customer customer=new Customer(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
+            searchCustomer(customer);
+
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Empty results").show();
         }
 
     }
 
     public void btnCustomerUpdateOnAction(ActionEvent event) throws SQLException {
-        String tempId = txtCusCode.getText();
-        String tempName = txtCusName.getText();
-        String tempAddress = txtCusAddress.getText();
-        String tempTp = txtCusTp.getText();
+
+     Customer customer=new Customer(
+             txtCusCode.getText(),txtCusName.getText(),txtCusAddress.getText(),txtCusTp.getText()
+
+     );
 
 
-        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("update customer set name=?,address=?,tp=? where id=?");
-        statement.setObject(1,tempName);
-        statement.setObject(2,tempAddress);
-        statement.setObject(3,tempTp);
-        statement.setObject(4,tempId);
-
-
-        if(statement.executeUpdate()>0){
-            new Alert(Alert.AlertType.INFORMATION,"Updated").show();
+        if (updateCustomer(customer)) {
+            new Alert(Alert.AlertType.INFORMATION, "Updated").show();
             loadAllCustomers();
             clearTextFields();
-        }else{
-            new Alert(Alert.AlertType.WARNING,"Try Again").show();
+        } else {
+            new Alert(Alert.AlertType.WARNING, "Try Again").show();
         }
     }
 
@@ -119,22 +126,43 @@ public class CustomerFormController {
 
 
 
+
     boolean saveCustomer(Customer c) throws SQLException {
         PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("insert into customer values (?,?,?,?)");
-        statement.setObject(1,c.getId());
-        statement.setObject(2,c.getName());
-        statement.setObject(3,c.getAddress());
-        statement.setObject(4,c.getTp());
+        statement.setObject(1, c.getId());
+        statement.setObject(2, c.getName());
+        statement.setObject(3, c.getAddress());
+        statement.setObject(4, c.getTp());
 
-        return statement.executeUpdate()>0;
+        return statement.executeUpdate() > 0;
 
     }
+
+    void searchCustomer(Customer c){
+        txtCusCode.setText(c.getId());
+        txtCusName.setText(c.getName());
+        txtCusAddress.setText(c.getAddress());
+        txtCusTp.setText(c.getTp());
+
+    }
+
+    boolean updateCustomer(Customer c) throws SQLException {
+        PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("update customer set name=?,address=?,tp=? where id=?");
+        statement.setObject(1, c.getName());
+        statement.setObject(2, c.getAddress());
+        statement.setObject(3, c.getTp());
+        statement.setObject(4, c.getId());
+
+        return statement.executeUpdate() > 0;
+
+    }
+
     public void loadAllCustomers() throws SQLException {
         PreparedStatement statement = DBConnection.getInstance().getConnection().prepareStatement("select * from customer");
         ResultSet resultSet = statement.executeQuery();
-        ObservableList<CustomerTM> observableList= FXCollections.observableArrayList();
+        ObservableList<CustomerTM> observableList = FXCollections.observableArrayList();
 
-        while (resultSet.next()){
+        while (resultSet.next()) {
             observableList.add(new CustomerTM(
                     resultSet.getString(1),
                     resultSet.getString(2),
@@ -146,7 +174,7 @@ public class CustomerFormController {
         tblCustomer.setItems(observableList);
     }
 
-    public void clearTextFields(){
+    public void clearTextFields() {
         txtCusCode.clear();
         txtCusName.clear();
         txtCusAddress.clear();
